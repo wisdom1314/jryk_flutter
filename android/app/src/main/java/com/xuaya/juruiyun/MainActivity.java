@@ -1,4 +1,4 @@
-package com.example.jryk_flutter;
+package com.xuaya.juruiyun;
 
 import io.flutter.embedding.android.FlutterActivity;
 
