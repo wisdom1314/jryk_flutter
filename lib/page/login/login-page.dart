@@ -14,11 +14,20 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
 
   late TabController _tabController;
+  late FocusNode _phoneFocusNode;
+  late FocusNode _passFocusNode;
+
+  String ? _name; // 用户名
+  String ? _pass; // 密码
+  bool _isHide = true;
+
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _phoneFocusNode = new FocusNode();
+    _passFocusNode = new FocusNode();
   }
 
   @override
@@ -101,7 +110,94 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            Center(child: Text('账号密码登录')),
+                            Center(child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 50,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        child: Text(
+                                          '用户名',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: AppColors.color_333333),
+                                        ),
+                                        width: 60,
+                                      ),
+                                      Expanded(
+                                        child: LoginTextFieldWidget(
+                                          focusNode: _phoneFocusNode,
+                                          hitString: '请输入您的用户名',
+                                          keyboardType: ITextInputType.text,
+                                          fieldCallBack: (content) {
+                                            _name = content;
+                                          },
+                                        ),
+                                        flex: 1,
+                                      )
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: AppColors.color_d8d8d8,
+                                              width: 1.0))),
+                                ),
+                                SizedBox(height: 20),
+                                Container(
+                                  height: 50,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        child: Text(
+                                          '密     码',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: AppColors.color_333333),
+                                        ),
+                                        width: 60,
+                                      ),
+                                      Expanded(
+                                        child: LoginTextFieldWidget(
+                                          focusNode: _passFocusNode,
+                                          hitString: '请输入密码',
+                                          keyboardType: ITextInputType.password,
+                                          ishidePwd: _isHide,
+                                          fieldCallBack: (content) {
+                                            _pass = content;
+                                          },
+                                        ),
+                                        flex: 1,
+                                      ),
+                                      Container(
+                                        child: IconButton(
+                                            icon: !_isHide
+                                                ? Icon(
+                                              Icons.visibility,
+                                              color: AppColors.color_999999,
+                                            )
+                                                : Icon(Icons.visibility_off, color: AppColors.color_999999,),
+                                            onPressed: () {
+                                              setState(() {
+                                                _isHide = !_isHide;
+                                              });
+                                            }),
+                                        width: 40,
+                                      )
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: AppColors.color_d8d8d8,
+                                              width: 1.0))),
+                                )
+
+                              ],
+                            )),
                             Center(child: Text('手机号登录')),
                           ],
                         ),
@@ -116,6 +212,123 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       ),
 
     );
+  }
 
+  hideFocus() {
+    /// 失去焦点
+    _phoneFocusNode.unfocus();
+    _passFocusNode.unfocus();
+  }
+
+  doLogin(BuildContext context) {
+
+  }
+}
+
+/// 输入框
+enum ITextInputType { phone, password, text }
+
+typedef void ITextFieldCallBack(String content);
+
+class LoginTextFieldWidget extends StatefulWidget {
+  final ITextInputType keyboardType;
+  final FocusNode ? focusNode;
+  final String ? hitString;
+  final ITextFieldCallBack ? fieldCallBack;
+  final bool ishidePwd;
+
+  LoginTextFieldWidget(
+      {Key? key,
+        this.keyboardType = ITextInputType.phone,
+        this.focusNode,
+        this.hitString,
+        this.fieldCallBack,
+        this.ishidePwd = true})
+      : super(key: key);
+
+  @override
+  _LoginTextFieldWidgetState createState() {
+    return _LoginTextFieldWidgetState();
+  }
+}
+
+class _LoginTextFieldWidgetState extends State<LoginTextFieldWidget> {
+  String _inputText = '';
+  bool _hasdeleteIcon = false;
+  bool _isPassword = false;
+
+  TextInputType _getTextInput() {
+    switch (widget.keyboardType) {
+      case ITextInputType.phone:
+        return TextInputType.phone;
+        break;
+
+      case ITextInputType.password:
+        _isPassword = true;
+        return TextInputType.text;
+        break;
+      case ITextInputType.text:
+        return TextInputType.text;
+        break;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController _controller = new TextEditingController.fromValue(
+        TextEditingValue(
+            text: _inputText,
+            selection: new TextSelection.fromPosition(TextPosition(
+                affinity: TextAffinity.downstream,
+                offset: _inputText.length))));
+    TextField textField = new TextField(
+      controller: _controller,
+      keyboardType: _getTextInput(),
+      focusNode: widget.focusNode,
+      onTap: () {
+        _hasdeleteIcon = _inputText.isNotEmpty ? true : false;
+      },
+      onChanged: (str) {
+        setState(() {
+          _inputText = str;
+          _hasdeleteIcon = (_inputText.isNotEmpty);
+          widget.fieldCallBack!(_inputText);
+        });
+      },
+      onEditingComplete: () {
+        _hasdeleteIcon = false;
+        widget.focusNode?.unfocus();
+      },
+      decoration:  InputDecoration(
+        border: InputBorder.none,
+        hintText: widget.hitString,
+        hintStyle: new TextStyle(
+          color: AppColors.color_a8a8a8,
+          fontSize: 15,
+        ),
+        suffixIcon: _hasdeleteIcon
+            ? new Container(
+          width: 20.0,
+          height: 20.0,
+          child: new IconButton(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(0.0),
+            iconSize: 18.0,
+            icon: Icon(Icons.cancel),
+            onPressed: () {
+              setState(() {
+                _inputText = "";
+                _hasdeleteIcon = (_inputText.isNotEmpty);
+                widget.fieldCallBack!(_inputText);
+              });
+            },
+          ),
+        )
+            : new Text(""),
+      ),
+      obscureText: (_isPassword && widget.ishidePwd) ? true : false,
+    );
+    // TODO: implement build
+    return textField;
   }
 }
