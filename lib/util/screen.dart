@@ -31,4 +31,8 @@ class Screen {
     return ScreenUtil().bottomBarHeight;
   }
 
+  static double get statusH {
+    return ScreenUtil().statusBarHeight;
+  }
+
 }
