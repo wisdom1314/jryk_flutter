@@ -110,94 +110,81 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            Center(child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            Padding(padding: EdgeInsets.only(left: 20, top: 60, right: 20, bottom: 20),child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Container(
                                   height: 50,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Container(
-                                        child: Text(
-                                          '用户名',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: AppColors.color_333333),
-                                        ),
-                                        width: 60,
-                                      ),
-                                      Expanded(
-                                        child: LoginTextFieldWidget(
-                                          focusNode: _phoneFocusNode,
-                                          hitString: '请输入您的用户名',
-                                          keyboardType: ITextInputType.text,
-                                          fieldCallBack: (content) {
-                                            _name = content;
-                                          },
-                                        ),
-                                        flex: 1,
-                                      )
-                                    ],
-                                  ),
                                   decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: AppColors.color_d8d8d8,
-                                              width: 1.0))),
+                                    color: AppColors.color_efefef, // 背景色
+                                    borderRadius: BorderRadius.circular(25.0), // 圆角值
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 20, right: 20),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: LoginTextFieldWidget(
+                                            focusNode: _phoneFocusNode,
+                                            hitString: '请输入您的用户名',
+                                            keyboardType: ITextInputType.text,
+                                            fieldCallBack: (content) {
+                                              _name = content;
+                                            },
+                                          ),
+                                          flex: 1,
+                                        )
+                                      ],
+                                    ),
+                                  )
                                 ),
                                 SizedBox(height: 20),
                                 Container(
                                   height: 50,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        child: Text(
-                                          '密     码',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: AppColors.color_333333),
-                                        ),
-                                        width: 60,
-                                      ),
-                                      Expanded(
-                                        child: LoginTextFieldWidget(
-                                          focusNode: _passFocusNode,
-                                          hitString: '请输入密码',
-                                          keyboardType: ITextInputType.password,
-                                          ishidePwd: _isHide,
-                                          fieldCallBack: (content) {
-                                            _pass = content;
-                                          },
-                                        ),
-                                        flex: 1,
-                                      ),
-                                      Container(
-                                        child: IconButton(
-                                            icon: !_isHide
-                                                ? Icon(
-                                              Icons.visibility,
-                                              color: AppColors.color_999999,
-                                            )
-                                                : Icon(Icons.visibility_off, color: AppColors.color_999999,),
-                                            onPressed: () {
-                                              setState(() {
-                                                _isHide = !_isHide;
-                                              });
-                                            }),
-                                        width: 40,
-                                      )
-                                    ],
-                                  ),
                                   decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: AppColors.color_d8d8d8,
-                                              width: 1.0))),
+                                    color: AppColors.color_efefef, // 背景色
+                                    borderRadius: BorderRadius.circular(25.0), // 圆角值
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 20, right: 20),
+                                    child:  Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: LoginTextFieldWidget(
+                                            focusNode: _passFocusNode,
+                                            hitString: '请输入密码',
+                                            keyboardType: ITextInputType.password,
+                                            ishidePwd: _isHide,
+                                            fieldCallBack: (content) {
+                                              _pass = content;
+                                            },
+                                          ),
+                                          flex: 1,
+                                        ),
+                                        Container(
+                                          child: IconButton(
+                                              icon: !_isHide
+                                                  ? Icon(
+                                                Icons.visibility,
+                                                color: AppColors.color_999999,
+                                              )
+                                                  : Icon(Icons.visibility_off, color: AppColors.color_999999,),
+                                              onPressed: () {
+                                                setState(() {
+                                                  _isHide = !_isHide;
+                                                });
+                                              }),
+                                          width: 40,
+                                        )
+                                      ],
+                                    ),
+                                  )
+
                                 )
 
                               ],
-                            )),
+                            ),),
                             Center(child: Text('手机号登录')),
                           ],
                         ),
