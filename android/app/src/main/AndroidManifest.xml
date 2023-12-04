@@ -58,6 +58,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="6517aafcbcf8d3fdc880cb7ba7118721">
+        </meta-data>
         <service android:name="com.amap.api.location.APSService"/>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

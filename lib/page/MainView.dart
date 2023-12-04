@@ -8,6 +8,7 @@ import 'package:jryk_flutter/page/MineView.dart';
 import 'package:jryk_flutter/page/MonitorView.dart';
 
 import '../util/Utils.dart';
+import 'map/GaodeMapPage.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -32,7 +33,7 @@ class _MainViewState extends State<MainView>
     WidgetsBinding.instance.addObserver(this);
 
     _controller = PageController(initialPage: 0);
-    _children =[MonitorView(), GroupView(), ApplicationView(), MineView()];
+    _children =[GaodeMapPage(), GroupView(), ApplicationView(), MineView()];
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
   }
 
@@ -143,9 +144,9 @@ class _MainViewState extends State<MainView>
 
   Image _getImage(String path) {
     return Image.asset(path,
-        width: ScreenUtil().setWidth(60),
-        height: ScreenUtil().setWidth(60),
-        fit: BoxFit.fill);
+        width: ScreenUtil().setWidth(30),
+        height: ScreenUtil().setWidth(30),
+        fit: BoxFit.contain);
   }
 
   Future<bool> backDeskTop() async {

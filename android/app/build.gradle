@@ -44,12 +44,19 @@ android {
             v2SigningEnabled true
         }
     }
+
+    sourceSets {
+        main{
+            jniLibs.srcDirs = ['libs']
+        }
+
+    }
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.xuaya.juruiyun"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -63,7 +70,9 @@ android {
         }
     }
 }
-
+dependencies {
+    implementation fileTree(include: '*.jar', dir: 'libs')
+}
 flutter {
     source '../..'
 }

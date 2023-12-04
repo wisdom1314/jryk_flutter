@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jryk_flutter/common/app-color.dart';
+import 'package:jryk_flutter/page/MainView.dart';
 import 'package:jryk_flutter/page/guide/guide-page.dart';
 import 'package:jryk_flutter/page/login/login-page.dart';
 
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: new LoginPage()
+      child: const MainView()
     );
   }
 }

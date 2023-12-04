@@ -34,6 +34,8 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  amap_flutter_location: ^3.0.0
+  amap_flutter_map: ^3.0.0
   cupertino_icons: ^1.0.2
   flutter_screenutil: 5.9.0  #屏幕适配
   dio: ^5.3.3 #网络请求框架
@@ -41,8 +43,6 @@ dependencies:
   getwidget: ^4.0.0
   logger: ^2.0.2  #打log
   provider: ^6.0.5 #状态管理
-  amap_flutter_location: ^3.0.0
-  amap_flutter_map: ^3.0.0
   permission_handler: ^11.0.1
   device_info: ^2.0.2
 dev_dependencies:
