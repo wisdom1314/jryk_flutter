@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:jryk_flutter/common/app-image.dart';
 import 'package:jryk_flutter/common/app-color.dart';
 import 'package:jryk_flutter/page/MainView.dart';
+import 'package:jryk_flutter/page/login/login-page.dart';
 import 'package:jryk_flutter/util/screen.dart';
 import 'package:jryk_flutter/page/home/home.dart';
 import 'package:jryk_flutter/util/navigator.dart';
@@ -71,7 +72,7 @@ class _GuidePageState extends State<GuidePage> {
     _pageController.addListener(() {
       if (_pageController.page == _pages.length - 1
           && _pageController.position.userScrollDirection == ScrollDirection.reverse) {
-        NavigatorUtil.noAnimatePushReplacement(context, MainView());
+        NavigatorUtil.noAnimatePushReplacement(context, LoginPage());
       }
     });
   }

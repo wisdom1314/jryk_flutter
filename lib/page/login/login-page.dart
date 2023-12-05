@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jryk_flutter/common/app-image.dart';
+import 'package:jryk_flutter/page/MainView.dart';
 import 'package:jryk_flutter/util/screen.dart';
 import 'package:jryk_flutter/common/app-color.dart';
+
+import '../../util/navigator.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -181,6 +185,32 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                                     ),
                                   )
 
+                                ),
+                                SizedBox(height: 20),
+                                 ElevatedButton(
+                                  child: Text(
+                                    "登    录",
+                                    style: TextStyle(color: Colors.white, fontSize: ScreenUtil().setSp(20)),
+                                  ),
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(AppColors.color_009eff),
+                                    textStyle: MaterialStateProperty.all(TextStyle(fontSize: ScreenUtil().setSp(50))),
+                                    //设置水波纹颜色
+                                    overlayColor: MaterialStateProperty.all(AppColors.color_009eff),
+                                    //设置阴影  不适用于这里的TextButton
+                                    elevation: MaterialStateProperty.all(1),
+                                    //设置按钮内边距
+                                    //padding: MaterialStateProperty.all(EdgeInsets.all(10)),
+                                    //设置按钮的大小
+                                    minimumSize: MaterialStateProperty.all(Size(300, 45)),
+                                    //设置边框
+                                    // side: MaterialStateProperty.all(BorderSide(color: Colors.grey, width: 1)),
+                                    //外边框装饰 会覆盖 side 配置的样式
+                                    // shape: MaterialStateProperty.all(StadiumBorder()),
+                                  ),
+                                  onPressed: () {
+                                    NavigatorUtil.noAnimatePushReplacement(context, MainView());
+                                  },
                                 )
 
                               ],

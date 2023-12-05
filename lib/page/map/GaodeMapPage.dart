@@ -29,8 +29,8 @@ class _GaodeMapPageState extends State<GaodeMapPage> {
   @override
   void initState() {
     super.initState();
-    AMapFlutterLocation.setApiKey(
-        "6517aafcbcf8d3fdc880cb7ba7118721", "752810fd6ea362ce8381b8810d9c807f");
+    // AMapFlutterLocation.setApiKey(
+    //     "6517aafcbcf8d3fdc880cb7ba7118721", "752810fd6ea362ce8381b8810d9c807f");
     AMapFlutterLocation.updatePrivacyAgree(true);
     AMapFlutterLocation.updatePrivacyShow(true, true);
 
@@ -58,10 +58,9 @@ class _GaodeMapPageState extends State<GaodeMapPage> {
     location = AMapFlutterLocation()
       ..setLocationOption(AMapLocationOption())
       ..onLocationChanged().listen((event) {
-        double? latitude = double.parse(event['latitude'] as String);
-        double? longitude = double.parse(event['longitude'] as String);
-        print("经纬度=======$latitude");
-        if (latitude != null && longitude != null) {
+        if (event['latitude'] != null && event['longitude'] != null) {
+          double? latitude = double.parse(event['latitude'] as String);
+          double? longitude = double.parse(event['longitude'] as String);
           setState(() {
             currentLocation = CameraPosition(
               target: LatLng(latitude, longitude),
@@ -77,7 +76,6 @@ class _GaodeMapPageState extends State<GaodeMapPage> {
   @override
   void dispose() {
     location?.destroy();
-    mapController!.clearDisk();
     super.dispose();
   }
   bool fistin=true;
@@ -90,6 +88,7 @@ class _GaodeMapPageState extends State<GaodeMapPage> {
          mapController!.moveCamera(CameraUpdate.newCameraPosition(
            CameraPosition(
              //中心点
+             zoom: 14,
              target: location.latLng,
            ),
          ));
@@ -100,6 +99,27 @@ class _GaodeMapPageState extends State<GaodeMapPage> {
   }
   @override
   Widget build(BuildContext context) {
+    final AMapWidget map =AMapWidget(
+      apiKey: amapApiKeys,
+      onLocationChanged: _onLocationChanged,
+      //定位小蓝点
+      myLocationStyleOptions: MyLocationStyleOptions(
+        true,
+        circleFillColor: Colors.lightBlue,
+        circleStrokeColor: Colors.blue,
+        circleStrokeWidth: 1,
+      ),
+      // 普通地图normal,卫星地图satellite,夜间视图night,导航视图 navi,公交视图bus,
+      mapType: MapType.normal,
+      // 缩放级别范围
+      minMaxZoomPreference: MinMaxZoomPreference(3, 20),
+      // 隐私政策包含高德 必须填写
+      privacyStatement:amapPrivacyStatement,
+      // 地图创建成功时返回AMapController
+      onMapCreated: (AMapController controller) {
+        mapController = controller;
+      },
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -109,27 +129,7 @@ class _GaodeMapPageState extends State<GaodeMapPage> {
       ),
       body: Center(
           child: SizedBox(
-            child: AMapWidget(
-              apiKey: amapApiKeys,
-              onLocationChanged: _onLocationChanged,
-              //定位小蓝点
-              myLocationStyleOptions: MyLocationStyleOptions(
-                true,
-                circleFillColor: Colors.lightBlue,
-                circleStrokeColor: Colors.blue,
-                circleStrokeWidth: 1,
-              ),
-              // 普通地图normal,卫星地图satellite,夜间视图night,导航视图 navi,公交视图bus,
-              mapType: MapType.normal,
-              // 缩放级别范围
-              minMaxZoomPreference: MinMaxZoomPreference(3, 20),
-              // 隐私政策包含高德 必须填写
-              privacyStatement:amapPrivacyStatement,
-              // 地图创建成功时返回AMapController
-              onMapCreated: (AMapController controller) {
-                mapController = controller;
-              },
-            ),
+            child:map,
           )),
     );
   }
