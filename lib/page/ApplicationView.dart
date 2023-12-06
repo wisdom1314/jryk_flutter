@@ -10,6 +10,16 @@ class ApplicationView extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text('应用'),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue, Colors.white], // 渐变色数组
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+          elevation: 0,
           centerTitle: true,
         ),
         body: const Column(

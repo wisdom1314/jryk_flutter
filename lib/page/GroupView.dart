@@ -31,6 +31,15 @@ class GroupView extends StatelessWidget {
               },
             ),
           ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue, Colors.white], // 渐变色数组
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
           elevation: 0,
           actions: [
             IconButton(
