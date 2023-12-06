@@ -83,6 +83,11 @@ flutter:
     - assets/images/guide_thrid.png
     - assets/images/login_back.png
     - assets/images/login_top.png
+    - assets/images/mem_placeholder.png
+    - assets/images/mine_aboutus.png
+    - assets/images/mine_agressment.png
+    - assets/images/mine_pass.png
+    - assets/images/mine_privacy.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
