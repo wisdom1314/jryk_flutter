@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jryk_flutter/common/app-image.dart';
 import 'package:jryk_flutter/util/screen.dart';
 import 'package:jryk_flutter/common/app-color.dart';
+import 'package:jryk_flutter/util/navigator.dart';
+import 'package:jryk_flutter/page/guide/guide-page.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -20,7 +22,14 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
   String ? _name; // 用户名
   String ? _pass; // 密码
   bool _isHide = true;
+  bool _isChecked = false;
 
+  FocusNode _deviceFocusNode = new FocusNode();
+  FocusNode _devicePassFocusNode = new FocusNode();
+  String ? _device; // 设备号
+  String ? _devicePass; // 密码
+  bool _deviceIsHide = true;
+  bool _deviceIsChecked = false;
 
   @override
   void initState() {
@@ -83,27 +92,38 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                 SizedBox(height: 30),
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
                   ),
                   child: Column(
                     children: [
-                      TabBar(
-                        controller: _tabController,
-                        indicatorColor: AppColors.color_009eff,
-                        indicatorWeight: 4,
-                        indicator: UnderlineTabIndicator(
-                          borderSide: BorderSide(width: 4.0, color: AppColors.color_009eff),
-                          insets: EdgeInsets.only(left: 20, right: 20),
-                          borderRadius: BorderRadius.circular(2)// 下划线的宽度
+                      Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10) ),
+                            image: DecorationImage(
+                              image: AssetImage(AppImages.loginTop),
+                              fit: BoxFit.fitWidth,
+
+                            ),
+                          ),
+                        child: TabBar(
+                          dividerColor: Colors.white,
+                          controller: _tabController,
+                          indicatorColor: AppColors.color_009eff,
+                          indicatorWeight: 4,
+                          indicator: UnderlineTabIndicator(
+                              borderSide: BorderSide(width: 4.0, color: AppColors.color_009eff),
+                              insets: EdgeInsets.only(left: 20, right: 20),
+                              borderRadius: BorderRadius.circular(2)// 下划线的宽度
+                          ),
+                          tabs: [
+                            Tab(text: '账号登录'),
+                            Tab(text: '设备号登录'),
+                          ],
+                          labelColor: AppColors.color_009eff,
+                          unselectedLabelColor: AppColors.color_ffffff,
+                          labelStyle: TextStyle(fontSize: Screen.sp(16)),
                         ),
-                        tabs: [
-                          Tab(text: '账号登录'),
-                          Tab(text: '设备号登录'),
-                        ],
-                        labelColor: AppColors.color_009eff,
-                        unselectedLabelColor: AppColors.color_333333,
-                        labelStyle: TextStyle(fontSize: Screen.sp(16)),
                       ),
                       SizedBox(
                         height: Screen.h(400), // 控制 TabBarView 高度，根据实际情况调整
@@ -181,11 +201,200 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                                     ),
                                   )
 
-                                )
+                                ),
+                                SizedBox(height: 60),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _isChecked = !_isChecked;
+                                        });
+                                      },
+                                      child: Container(
+                                        width: 18.0,
+                                        height: 18.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            width: 1.0,
+                                            color: AppColors.color_999999
+                                          ),
+                                        ),
+                                        child: _isChecked
+                                            ? Center(
+                                          child: Container(
+                                            width: 12.0,
+                                            height: 12.0,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        )
+                                            : null,
+                                      ),
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text('阅读并同意', style: TextStyle(fontSize: Screen.sp(12)),),
+                                    GestureDetector(onTap: (){},child: Text('《用户协议》',style: TextStyle(color: AppColors.color_009eff, fontSize: Screen.sp(12),fontWeight: FontWeight.bold))),
+                                    Text('和',style: TextStyle(fontSize: Screen.sp(12))),
+                                    GestureDetector(onTap: (){},child: Text('《用户隐私协议》',style: TextStyle(color: AppColors.color_009eff, fontSize: Screen.sp(12), fontWeight: FontWeight.bold)))
+                                  ],
+                                ),
+                                SizedBox(height: 40),
+                                // 登录按钮
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    child: Text('登录', style: TextStyle(color: AppColors.color_ffffff, fontSize: 16)),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.color_009eff,
+                                    ),
+                                    onPressed: () {
+                                      NavigatorUtil.noAnimatePushReplacement(context, GuidePage());
+                                    },
+                                  ),
+                                ),
 
                               ],
                             ),),
-                            Center(child: Text('手机号登录')),
+                            Padding(padding: EdgeInsets.only(left: 20, top: 60, right: 20, bottom: 20),child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.color_efefef, // 背景色
+                                      borderRadius: BorderRadius.circular(25.0), // 圆角值
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 20, right: 20),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: LoginTextFieldWidget(
+                                              focusNode: _deviceFocusNode,
+                                              hitString: '请输入您的设备号',
+                                              keyboardType: ITextInputType.text,
+                                              fieldCallBack: (content) {
+                                                _device = content;
+                                              },
+                                            ),
+                                            flex: 1,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                ),
+                                SizedBox(height: 20),
+                                Container(
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.color_efefef, // 背景色
+                                      borderRadius: BorderRadius.circular(25.0), // 圆角值
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 20, right: 20),
+                                      child:  Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: LoginTextFieldWidget(
+                                              focusNode: _devicePassFocusNode,
+                                              hitString: '请输入密码',
+                                              keyboardType: ITextInputType.password,
+                                              ishidePwd: _deviceIsHide,
+                                              fieldCallBack: (content) {
+                                                _devicePass = content;
+                                              },
+                                            ),
+                                            flex: 1,
+                                          ),
+                                          Container(
+                                            child: IconButton(
+                                                icon: !_deviceIsHide
+                                                    ? Icon(
+                                                  Icons.visibility,
+                                                  color: AppColors.color_999999,
+                                                )
+                                                    : Icon(Icons.visibility_off, color: AppColors.color_999999,),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _deviceIsHide = !_deviceIsHide;
+                                                  });
+                                                }),
+                                            width: 40,
+                                          )
+                                        ],
+                                      ),
+                                    )
+
+                                ),
+                                SizedBox(height: 60),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _deviceIsChecked = !_deviceIsChecked;
+                                        });
+                                      },
+                                      child: Container(
+                                        width: 18.0,
+                                        height: 18.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              width: 1.0,
+                                              color: AppColors.color_999999
+                                          ),
+                                        ),
+                                        child: _deviceIsChecked
+                                            ? Center(
+                                          child: Container(
+                                            width: 12.0,
+                                            height: 12.0,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        )
+                                            : null,
+                                      ),
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text('阅读并同意', style: TextStyle(fontSize: Screen.sp(12)),),
+                                    GestureDetector(onTap: (){},child: Text('《用户协议》',style: TextStyle(color: AppColors.color_009eff, fontSize: Screen.sp(12),fontWeight: FontWeight.bold))),
+                                    Text('和',style: TextStyle(fontSize: Screen.sp(12))),
+                                    GestureDetector(onTap: (){},child: Text('《用户隐私协议》',style: TextStyle(color: AppColors.color_009eff, fontSize: Screen.sp(12), fontWeight: FontWeight.bold)))
+                                  ],
+                                ),
+                                SizedBox(height: 40),
+                                // 登录按钮
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    child: Text('登录', style: TextStyle(color: AppColors.color_ffffff, fontSize: 16)),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.color_009eff,
+                                    ),
+                                    onPressed: () {
+                                      NavigatorUtil.noAnimatePushReplacement(context, GuidePage());
+                                    },
+                                  ),
+                                ),
+
+                              ],
+                            ),),
+
                           ],
                         ),
                       ),
@@ -205,6 +414,9 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     /// 失去焦点
     _phoneFocusNode.unfocus();
     _passFocusNode.unfocus();
+
+    _deviceFocusNode.unfocus();
+    _devicePassFocusNode.unfocus();
   }
 
   doLogin(BuildContext context) {

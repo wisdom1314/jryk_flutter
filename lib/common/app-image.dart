@@ -8,4 +8,5 @@ class AppImages {
   static final String guideSecond = 'assets/images/guide_second.png';
   static final String guideThrid = 'assets/images/guide_thrid.png';
   static final String loginBack = 'assets/images/login_back.png';
+  static final String loginTop = 'assets/images/login_top.png';
 }
