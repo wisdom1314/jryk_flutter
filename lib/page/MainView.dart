@@ -160,7 +160,6 @@ class _MainViewState extends State<MainView>
   }
 
   @override
-  @override
   void dispose() {
     _controller.dispose();
     WidgetsBinding.instance.removeObserver(this);
