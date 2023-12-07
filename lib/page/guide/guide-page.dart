@@ -23,7 +23,7 @@ class _GuidePageState extends State<GuidePage> {
     _buildPage("手机定位", "位置服务 尽在掌中", AppImages.guideFrist),
     _buildPage("位置监控", "位置查看 实时定位", AppImages.guideSecond),
     _buildPage("风控算法", "风险数据 随时掌握", AppImages.guideThrid),
-    MainView()
+    LoginPage()
   ];
 
   static Widget _buildPage(String text, String infoText, String backgroundImage) {

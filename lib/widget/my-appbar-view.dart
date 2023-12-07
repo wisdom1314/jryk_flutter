@@ -65,7 +65,14 @@ class AppBarState extends State<MyAppBarView> {
           ? SystemUiOverlayStyle.dark
           : SystemUiOverlayStyle.light,
       child: Container(
-        color: widget.barBackColor,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue, Colors.white], // 渐变色数组
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        // color: widget.barBackColor,
         height: widget.contentHeight ??
             ScreenUtil().statusBarHeight + (Platform.isIOS ? 44 : Screen.h(44)),
         child: SafeArea(

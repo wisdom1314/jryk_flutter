@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jryk_flutter/common/app-color.dart';
 import 'package:jryk_flutter/common/app-image.dart';
+import 'package:jryk_flutter/page/mine/about-page.dart';
+import 'package:jryk_flutter/page/mine/agreement-page.dart';
+import 'package:jryk_flutter/page/mine/password-page.dart';
+import 'package:jryk_flutter/page/mine/privacy-page.dart';
+import 'package:jryk_flutter/page/mine/userinfo-page.dart';
+import 'package:jryk_flutter/util/navigator.dart';
 import 'package:jryk_flutter/widget/my-appbar-view.dart';
 
 class MineView extends StatefulWidget {
@@ -53,7 +59,9 @@ class _MineViewState extends State<MineView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image(image: AssetImage(AppImages.memberPlaceholder))
+                      GestureDetector(onTap: () {
+                        NavigatorUtil.push(context, UserInfoPage());
+                      }, child: Image(image: AssetImage(AppImages.memberPlaceholder)),)
                     ],
                   )
                 ),
@@ -90,7 +98,6 @@ class _MineViewState extends State<MineView> {
   Widget _buildListWidget() {
     List<Widget> listItems = [];
     for (var item in _rowList) {
-      print(item);
       listItems.add(
         GestureDetector(
           onTap: () {
@@ -98,11 +105,15 @@ class _MineViewState extends State<MineView> {
             String title = item['title'];
             // 根据标题执行相应操作
             if (title == '修改密码') {
-              // 处理修改密码逻辑
+              NavigatorUtil.push(context, PasswordPage());
             } else if (title == '关于我们') {
-              // 处理关于我们逻辑
+              NavigatorUtil.push(context, AboutUsPage());
+            }else if (title == '用户协议') {
+              NavigatorUtil.push(context, PrivacyPage());
+            }else if (title == '隐私协议') {
+              NavigatorUtil.push(context, AgreementPage());
             }
-            // 其他逻辑...
+
           },
           child: Container(
             padding: EdgeInsets.all(12),

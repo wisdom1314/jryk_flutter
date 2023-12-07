@@ -4,6 +4,7 @@ import 'package:jryk_flutter/util/screen.dart';
 import 'package:jryk_flutter/common/app-color.dart';
 import 'package:jryk_flutter/util/navigator.dart';
 import 'package:jryk_flutter/page/guide/guide-page.dart';
+import 'package:jryk_flutter/page/MainView.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -265,7 +266,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                                       backgroundColor: AppColors.color_009eff,
                                     ),
                                     onPressed: () {
-                                      NavigatorUtil.noAnimatePushReplacement(context, GuidePage());
+                                      NavigatorUtil.noAnimatePushReplacement(context, MainView());
                                     },
                                   ),
                                 ),
@@ -397,7 +398,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                                       backgroundColor: AppColors.color_009eff,
                                     ),
                                     onPressed: () {
-                                      NavigatorUtil.noAnimatePushReplacement(context, GuidePage());
+                                      NavigatorUtil.noAnimatePushReplacement(context, MainView());
                                     },
                                   ),
                                 ),

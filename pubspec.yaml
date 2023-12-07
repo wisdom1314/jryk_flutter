@@ -93,6 +93,7 @@ flutter:
     - lib/assets/images/cheliangguanli.png
     - lib/assets/images/dianziweilan.png
     - lib/assets/images/tebieguanzhu.png
+    - lib/assets/images/ic_login_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
