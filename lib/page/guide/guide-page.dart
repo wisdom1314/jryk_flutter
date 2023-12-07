@@ -5,7 +5,6 @@ import 'package:jryk_flutter/common/app-color.dart';
 import 'package:jryk_flutter/page/MainView.dart';
 import 'package:jryk_flutter/page/login/login-page.dart';
 import 'package:jryk_flutter/util/screen.dart';
-import 'package:jryk_flutter/page/home/home.dart';
 import 'package:jryk_flutter/util/navigator.dart';
 
 class GuidePage extends StatefulWidget {
@@ -24,7 +23,7 @@ class _GuidePageState extends State<GuidePage> {
     _buildPage("手机定位", "位置服务 尽在掌中", AppImages.guideFrist),
     _buildPage("位置监控", "位置查看 实时定位", AppImages.guideSecond),
     _buildPage("风控算法", "风险数据 随时掌握", AppImages.guideThrid),
-    HomePage()
+    MainView()
   ];
 
   static Widget _buildPage(String text, String infoText, String backgroundImage) {
