@@ -64,7 +64,21 @@ class _MineViewState extends State<MineView> {
                     color: AppColors.color_ffffff
                   ),
                   child: _buildListWidget()
-                )
+                ),
+                SizedBox(height: 50,),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    child: Text('退出登录', style: TextStyle(color: AppColors.color_ffffff, fontSize: 16)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.color_009eff,
+                    ),
+                    onPressed: () {
+
+                    },
+                  ),
+                ),
               ],
             ),
           ),
@@ -75,9 +89,8 @@ class _MineViewState extends State<MineView> {
 
   Widget _buildListWidget() {
     List<Widget> listItems = [];
-
     for (var item in _rowList) {
-      print( item);
+      print(item);
       listItems.add(
         GestureDetector(
           onTap: () {

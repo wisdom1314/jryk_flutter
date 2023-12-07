@@ -31,12 +31,23 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
   bool _deviceIsHide = true;
   bool _deviceIsChecked = false;
 
+  String loginTop = AppImages.loginTop;
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _phoneFocusNode = new FocusNode();
     _passFocusNode = new FocusNode();
+    _tabController.addListener(() {
+      print('sdsdsd ${_tabController.index.toString()}');
+      setState(() {
+        if (_tabController.index == 0) {
+          loginTop = AppImages.loginTop;
+        } else if (_tabController.index == 1) {
+          loginTop = AppImages.loginTopSecond; // 设置第二个标签的图像路径
+        }
+      });
+    });
   }
 
   @override
@@ -101,9 +112,8 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10) ),
                             image: DecorationImage(
-                              image: AssetImage(AppImages.loginTop),
+                              image: AssetImage(loginTop),
                               fit: BoxFit.fitWidth,
-
                             ),
                           ),
                         child: TabBar(
