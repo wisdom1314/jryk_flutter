@@ -5,6 +5,10 @@ import 'package:amap_flutter_location/amap_location_option.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_uikit_forzzh/bubble/bubble.dart';
+import 'package:flutter_uikit_forzzh/pop/popup_gravity.dart';
+import 'package:flutter_uikit_forzzh/pop/popup_window.dart';
+import 'package:flutter_uikit_forzzh/textview/marquee_view.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class GaodeMapPage extends StatefulWidget {
@@ -26,7 +30,9 @@ class _GaodeMapPageState extends State<GaodeMapPage> {
 
   PermissionStatus? permissionStatus;
   CameraPosition? currentLocation;
-
+  int maptype = 0;
+  bool isExpanded = true;
+  GlobalKey btnKey = GlobalKey();
   @override
   void initState() {
     super.initState();
@@ -101,6 +107,13 @@ class _GaodeMapPageState extends State<GaodeMapPage> {
     });
   }
 
+  void _updateMessage(int mapType) {
+    setState(() {
+      maptype = mapType;
+      print("huidiaodianjiweixing");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final AMapWidget map = AMapWidget(
@@ -114,7 +127,7 @@ class _GaodeMapPageState extends State<GaodeMapPage> {
         circleStrokeWidth: 1,
       ),
       // 普通地图normal,卫星地图satellite,夜间视图night,导航视图 navi,公交视图bus,
-      mapType: MapType.normal,
+      mapType: maptype == 0 ? MapType.normal : MapType.satellite,
       // 缩放级别范围
       minMaxZoomPreference: MinMaxZoomPreference(3, 20),
       // 隐私政策包含高德 必须填写
@@ -178,155 +191,172 @@ class _GaodeMapPageState extends State<GaodeMapPage> {
       ),
       body: Center(
           child: SizedBox(
-        child: FloatingButtonsWidget(
-          map: map,
+        child: Stack(
+          children: [
+            // Your map layer
+            Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: map,
+              ),
+            ),
+            // Floating buttons
+            Positioned(
+              top: 40.0,
+              right: 16.0,
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                width: isExpanded ? 50 : 50,
+                height: isExpanded ? 250 : 50,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: isExpanded
+                      ? [
+                    // Add your buttons here
+                    FloatingButton(
+                      key: btnKey,
+                      icon: Icons.swap_calls,
+                      label: '切换',
+                      onTap: () {
+                        RenderBox box = btnKey.currentContext
+                            ?.findRenderObject() as RenderBox;
+                        showPopupWindow(
+                          context,
+                          bgColor: Colors.transparent,
+                          clickOutDismiss: true,
+                          gravity: PopupGravity.leftCenter,
+                          targetRenderBox: box,
+                          offsetY: 30,
+                          duration: const Duration(milliseconds: 300),
+                          childFun: (pop) {
+                            return StatefulBuilder(
+                                key: GlobalKey(),
+                                builder: (popContext, popState) {
+                                  return Bubble(
+                                    width: 200.0,
+                                    height: 100.0,
+                                    color: Colors.white,
+                                    position: BubbleArrowDirection.right,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        MapTypeButton(
+                                          imagePath:
+                                          "lib/assets/images/biaozhunditu.png",
+                                          label: '标准地图',
+                                          onTap: () {
+                                            _updateMessage(0);
+                                            pop.dismiss(popContext);
+                                          },
+                                        ),
+                                        SizedBox(width: 18.0),
+                                        MapTypeButton(
+                                          imagePath:
+                                          "lib/assets/images/weixingditu.png",
+                                          label: '卫星地图',
+                                          onTap: () {
+                                            _updateMessage(1);
+                                            pop.dismiss(popContext);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                });
+                          },
+                        );
+                      },
+                    ),
+                    FloatingButton(
+                        icon: Icons.list, label: '列表', onTap: () {}),
+                    FloatingButton(
+                        icon: Icons.message, label: '消息', onTap: () {}),
+                    FloatingButton(
+                        icon: Icons.info, label: '状态', onTap: () {}),
+                    Positioned(
+                      bottom: 16.0,
+                      right: 16.0,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isExpanded = !isExpanded;
+                          });
+                        },
+                        child: Text(
+                          isExpanded ? "收起" : "展开",
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]
+                      : [
+                    Positioned(
+                      bottom: 16.0,
+                      right: 16.0,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isExpanded = !isExpanded;
+                          });
+                        },
+                        child: Text(
+                          isExpanded ? "收起" : "展开",
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(bottom:20,left:MediaQuery.of(context).size.width/2,child: Text(""))
+          ],
         ),
       )),
     );
   }
 }
 
-class FloatingButtonsWidget extends StatefulWidget {
-  final Widget map;
-
-  const FloatingButtonsWidget({Key? key, required this.map}) : super(key: key);
-
-  @override
-  _FloatingButtonsWidgetState createState() => _FloatingButtonsWidgetState();
-}
-
-class _FloatingButtonsWidgetState extends State<FloatingButtonsWidget> {
-  bool isExpanded = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Your map layer
-        Center(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: widget.map,
-          ),
-        ),
-        // Floating buttons
-        Positioned(
-          top: 40.0,
-          right: 16.0,
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            width: isExpanded ? 50 : 50,
-            height: isExpanded ? 250 : 50,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: isExpanded
-                  ? [
-                      // Add your buttons here
-                      FloatingButton(
-                        icon: Icons.swap_calls,
-                        label: '切换',
-                        onTap: () {
-                          showMapTypeDialog(context);
-                        },
-                      ),
-                      FloatingButton(
-                          icon: Icons.list, label: '列表', onTap: () {}),
-                      FloatingButton(
-                          icon: Icons.message, label: '消息', onTap: () {}),
-                      FloatingButton(
-                          icon: Icons.info, label: '状态', onTap: () {}),
-                      Positioned(
-                        bottom: 16.0,
-                        right: 16.0,
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isExpanded = !isExpanded;
-                            });
-                          },
-                          child: Text(
-                            isExpanded ? "收起" : "展开",
-                            style: const TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ]
-                  : [
-                      Positioned(
-                        bottom: 16.0,
-                        right: 16.0,
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isExpanded = !isExpanded;
-                            });
-                          },
-                          child: Text(
-                            isExpanded ? "收起" : "展开",
-                            style: const TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  void showMapTypeDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Positioned(
-          top: 16.0,
-          right: 16.0, // Adjust the right value as needed
-          child: AlertDialog(
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                MapTypeButton(icon: Icons.map, label: '标准地图'),
-                MapTypeButton(icon: Icons.satellite, label: '卫星地图'),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
 class MapTypeButton extends StatelessWidget {
-  final IconData icon;
+  final String imagePath;
   final String label;
+  final VoidCallback onTap;
 
   const MapTypeButton({
     Key? key,
-    required this.icon,
+    required this.imagePath,
     required this.label,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon),
-        SizedBox(height: 8),
-        Text(label),
-      ],
-    );
+    return GestureDetector(
+        onTap: onTap,
+        child: Container(
+            padding: EdgeInsets.all(2),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  imagePath,
+                  width: 60.0,
+                  height: 32.0,
+                ),
+                SizedBox(height: 8),
+                Text(label),
+              ],
+            )));
   }
 }
 

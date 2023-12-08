@@ -45,6 +45,8 @@ dependencies:
   provider: ^6.0.5 #状态管理
   permission_handler: ^11.0.1
   device_info: ^2.0.2
+  kumi_popup_window: ^2.0.1
+  flutter_uikit_forzzh: ^0.1.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -94,6 +96,8 @@ flutter:
     - lib/assets/images/dianziweilan.png
     - lib/assets/images/tebieguanzhu.png
     - lib/assets/images/ic_login_logo.png
+    - lib/assets/images/biaozhunditu.png
+    - lib/assets/images/weixingditu.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
