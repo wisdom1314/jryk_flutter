@@ -7,25 +7,16 @@ import 'package:jryk_flutter/common/config.dart';
 import 'package:jryk_flutter/http/code.dart';
 import 'package:jryk_flutter/http/result-bean.dart';
 import 'package:jryk_flutter/http/return-body-entity.dart';
-
+import 'package:jryk_flutter/common/api.dart';
 
 class HttpRequest {
-  static String _baseUrl = '';
-  static late HttpRequest instance;
+  static String _baseUrl = Api.BASE_URL;
+
   late BaseOptions options;
   late Dio dio;
 
-  static HttpRequest getInstance() {
-    if (null == instance) instance = HttpRequest();
-    return instance;
-  }
-
-  CancelToken cancelToken = CancelToken();
-
-  /*
-   * config it and create
-   */
-  HttpRequest() {
+  static HttpRequest? instance;
+  HttpRequest._() {
     //BaseOptions、Options、RequestOptions 都可以配置参数，优先级别依次递增，且可以根据优先级别覆盖参数
     options = BaseOptions(
       //请求基地址,可以包含子路径
@@ -35,12 +26,19 @@ class HttpRequest {
       //响应流上前后两次接受到数据的间隔，单位为毫秒。
       receiveTimeout: Duration(milliseconds: 15000),
       //Http请求头.
-      headers: {"version": "1.0.0"},
+      // headers: {"version": "1.0.0"},
       //表示期望以那种格式(方式)接受响应数据。接受四种类型 `json`, `stream`, `plain`, `bytes`. 默认值是 `json`,
-      responseType: ResponseType.plain,
+      // responseType: ResponseType.plain,
     );
     dio = Dio(options);
+  } // 私有构造函数
+
+  static HttpRequest getInstance() {
+    instance ??= HttpRequest._(); // 使用 null-aware assignment 进行初始化
+    return instance!;
   }
+
+  CancelToken cancelToken = CancelToken();
 
   void refreshToken() {
 
@@ -56,7 +54,7 @@ class HttpRequest {
         bool showDialog = false,
         Function(String data, String message)? successCallBack,
         Function(int code, String message)? errorCallBack}) async {
-    late Response response;
+    Response? response;
     try {
       if (showDialog) {}
       response = await dio.get(url,
@@ -67,7 +65,7 @@ class HttpRequest {
       formatError(e);
     }
     if (showDialog) {}
-    if (null != response.data) {
+    if (response != null && null != response.data) {
       ReturnBodyEntity returnBodyEntity = ReturnBodyEntity.fromJson(
           json.decode(response.data));
       if (null != returnBodyEntity) {
@@ -115,23 +113,24 @@ class HttpRequest {
         bool showDialog = false,
         Function(String data, String message)? successCallBack,
         Function(int code, String message)? errorCallBack}) async {
-    late Response response;
+    Response? response;
     try {
       if (showDialog) {
-
       }
       response = await dio.post(url,
           queryParameters: queryParameters,
           data: data,
           options: options,
           cancelToken: cancelToken);
+      print('888${response}');
+      print('6666666 ${url}, ${queryParameters}, ${data}, ${options}');
     } on DioException catch (e) {
       formatError(e);
+      print('66666667 ${e}');
     }
     if (showDialog) {
-
     }
-    if (null != response.data) {
+    if (response!=null && null != response.data) {
       ReturnBodyEntity returnBodyEntity =
       ReturnBodyEntity.fromJson(json.decode(response.data));
       if (null != returnBodyEntity) {
@@ -158,6 +157,7 @@ class HttpRequest {
         MyToast.showToast('网络数据有问题');
       }
     } else {
+      print('34343434 ${response}');
       errorCallBack!(Code.NETWORK_ERROR, "网络不稳定，请稍后重试");
       MyToast.showToast('网络不稳定，请稍后重试');
     }

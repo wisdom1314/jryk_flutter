@@ -13,6 +13,7 @@ class ServiceCommon {
     RemoteRepo.inst.httpRequest.post(Api.LOGIN_URL, data: json.encode(params),
         successCallBack: (data, msg) {
           String responseJson = json.decode(data);
+          print('sdssd${responseJson}');
           completer.complete(ResultBean(responseJson, msg));
         }, errorCallBack: (code, msg) {
           completer.completeError(ResultBean(code, msg));

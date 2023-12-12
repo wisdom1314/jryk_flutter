@@ -437,6 +437,8 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     _params['accName'] = '959062073296';
     _params['password'] = '073296';
     _params['loginModel'] = 6;
+    _params['client'] = 1;
+    _params['rememberMe'] = false;
     ServiceCommon.login(_params).then((result) {
       print('sdsdsd ${result}');
     });
