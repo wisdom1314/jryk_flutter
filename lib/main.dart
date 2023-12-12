@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child:  MainView()
+      child:  LoginPage()
     );
   }
 }

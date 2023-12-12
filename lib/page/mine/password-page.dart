@@ -83,7 +83,7 @@ class _PasswordPageState extends State<PasswordPage> {
                        keyboardType: keyBoardType,
                        fieldCallBack: (content) {
                        },
-                     ),
+                     ) ,
                    )
                ),
                 Container(

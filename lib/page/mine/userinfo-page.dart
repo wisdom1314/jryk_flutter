@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jryk_flutter/common/app-color.dart';
 import 'package:jryk_flutter/common/app-image.dart';
 import 'package:jryk_flutter/widget/my-appbar-view.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserInfoPage extends StatefulWidget {
 
@@ -55,7 +56,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('更换头像'),
-                            Image(image: AssetImage(AppImages.memberPlaceholder),height: 50, width: 50,)
+                            GestureDetector(onTap: () {
+                              selectImageFromGallery();
+                            }, child: Image(image: AssetImage(AppImages.memberPlaceholder),height: 50, width: 50,),)
                           ],
                         ),
                       ],
@@ -100,5 +103,16 @@ class _UserInfoPageState extends State<UserInfoPage> {
         ),
       ),
     );
+  }
+
+  Future<void> selectImageFromGallery() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      // 使用选择的图片
+      print('选择的图片路径：${image.path}');
+    } else {
+      print('没有选择图片。');
+    }
   }
 }
