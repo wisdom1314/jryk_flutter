@@ -10,7 +10,7 @@ class ServiceCommon {
   /// 登录接口
   static Future<ResultBean<String>> login(Map<String, dynamic> params) {
     Completer<ResultBean<String>> completer = Completer();
-    RemoteRepo.inst.httpRequest.post(Api.LOGIN_URL, data: json.encode(params),
+    RemoteRepo.inst.httpRequest.post(Api.LOGIN_URL, data: params,
         successCallBack: (data, msg) {
           String responseJson = json.decode(data);
           print('sdssd${responseJson}');

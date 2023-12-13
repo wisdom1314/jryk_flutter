@@ -33,6 +33,7 @@ class _GaodeMapPageState extends State<GaodeMapPage> {
   int maptype = 0;
   bool isExpanded = true;
   GlobalKey btnKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -218,108 +219,184 @@ class _GaodeMapPageState extends State<GaodeMapPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: isExpanded
                       ? [
-                    // Add your buttons here
-                    FloatingButton(
-                      key: btnKey,
-                      icon: Icons.swap_calls,
-                      label: '切换',
-                      onTap: () {
-                        RenderBox box = btnKey.currentContext
-                            ?.findRenderObject() as RenderBox;
-                        showPopupWindow(
-                          context,
-                          bgColor: Colors.transparent,
-                          clickOutDismiss: true,
-                          gravity: PopupGravity.leftCenter,
-                          targetRenderBox: box,
-                          offsetY: 30,
-                          duration: const Duration(milliseconds: 300),
-                          childFun: (pop) {
-                            return StatefulBuilder(
-                                key: GlobalKey(),
-                                builder: (popContext, popState) {
-                                  return Bubble(
-                                    width: 200.0,
-                                    height: 100.0,
-                                    color: Colors.white,
-                                    position: BubbleArrowDirection.right,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        MapTypeButton(
-                                          imagePath:
-                                          "lib/assets/images/biaozhunditu.png",
-                                          label: '标准地图',
-                                          onTap: () {
-                                            _updateMessage(0);
-                                            pop.dismiss(popContext);
-                                          },
-                                        ),
-                                        SizedBox(width: 18.0),
-                                        MapTypeButton(
-                                          imagePath:
-                                          "lib/assets/images/weixingditu.png",
-                                          label: '卫星地图',
-                                          onTap: () {
-                                            _updateMessage(1);
-                                            pop.dismiss(popContext);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                          // Add your buttons here
+                          FloatingButton(
+                            key: btnKey,
+                            icon: Icons.swap_calls,
+                            label: '切换',
+                            onTap: () {
+                              RenderBox box = btnKey.currentContext
+                                  ?.findRenderObject() as RenderBox;
+                              showPopupWindow(
+                                context,
+                                bgColor: Colors.transparent,
+                                clickOutDismiss: true,
+                                gravity: PopupGravity.leftCenter,
+                                targetRenderBox: box,
+                                offsetY: 30,
+                                duration: const Duration(milliseconds: 300),
+                                childFun: (pop) {
+                                  return StatefulBuilder(
+                                      key: GlobalKey(),
+                                      builder: (popContext, popState) {
+                                        return Bubble(
+                                          width: 200.0,
+                                          height: 100.0,
+                                          color: Colors.white,
+                                          position: BubbleArrowDirection.right,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              MapTypeButton(
+                                                imagePath:
+                                                    "lib/assets/images/biaozhunditu.png",
+                                                label: '标准地图',
+                                                onTap: () {
+                                                  _updateMessage(0);
+                                                  pop.dismiss(popContext);
+                                                },
+                                              ),
+                                              SizedBox(width: 18.0),
+                                              MapTypeButton(
+                                                imagePath:
+                                                    "lib/assets/images/weixingditu.png",
+                                                label: '卫星地图',
+                                                onTap: () {
+                                                  _updateMessage(1);
+                                                  pop.dismiss(popContext);
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      });
+                                },
+                              );
+                            },
+                          ),
+                          FloatingButton(
+                              icon: Icons.list, label: '列表', onTap: () {}),
+                          FloatingButton(
+                              icon: Icons.message, label: '消息', onTap: () {}),
+                          FloatingButton(
+                              icon: Icons.info, label: '状态', onTap: () {}),
+                          Positioned(
+                            bottom: 16.0,
+                            right: 16.0,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isExpanded = !isExpanded;
                                 });
-                          },
-                        );
-                      },
-                    ),
-                    FloatingButton(
-                        icon: Icons.list, label: '列表', onTap: () {}),
-                    FloatingButton(
-                        icon: Icons.message, label: '消息', onTap: () {}),
-                    FloatingButton(
-                        icon: Icons.info, label: '状态', onTap: () {}),
-                    Positioned(
-                      bottom: 16.0,
-                      right: 16.0,
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isExpanded = !isExpanded;
-                          });
-                        },
-                        child: Text(
-                          isExpanded ? "收起" : "展开",
-                          style: const TextStyle(
-                            color: Colors.black,
+                              },
+                              child: Text(
+                                isExpanded ? "收起" : "展开",
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ]
+                        ]
                       : [
+                          Positioned(
+                            bottom: 16.0,
+                            right: 16.0,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isExpanded = !isExpanded;
+                                });
+                              },
+                              child: Text(
+                                isExpanded ? "收起" : "展开",
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 20,
+              left: (MediaQuery.of(context).size.width - 250) / 2,
+              child: Container(
+                width: 250.0, // 设置按钮宽度
+                height: 80,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // 车辆图片
                     Positioned(
-                      bottom: 16.0,
-                      right: 16.0,
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isExpanded = !isExpanded;
-                          });
-                        },
-                        child: Text(
-                          isExpanded ? "收起" : "展开",
-                          style: const TextStyle(
-                            color: Colors.black,
+                      left: 0,
+                      child: Container(
+                        width: 120.0, // 设置按钮宽度
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // 处理上一辆按钮的点击事件
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Colors.white.withOpacity(0.7), // 设置背景颜色并添加半透明效果
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(
+                                "lib/assets/images/shangyiliang.png",
+                                width: 30.0,
+                                height: 30.0,
+                              ),
+                              Text("上一辆",
+                                  style: TextStyle(color: Colors.black)),
+                            ],
                           ),
                         ),
                       ),
+                    ),
+
+                    // 下一辆按钮
+                    Positioned(
+                      right: 0,
+                      child: Container(
+                        width: 120.0, // 设置按钮宽度
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // 处理下一辆按钮的点击事件
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Colors.white.withOpacity(0.7), // 设置背景颜色并添加半透明效果
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(
+                                "lib/assets/images/xiayiliang.png",
+                                width: 30.0,
+                                height: 30.0,
+                              ),
+                              Text("下一辆",
+                                  style: TextStyle(color: Colors.black)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Image.asset(
+                      "lib/assets/images/car.png",
+                      width: 80.0,
+                      height: 80.0,
                     ),
                   ],
                 ),
               ),
-            ),
-            Positioned(bottom:20,left:MediaQuery.of(context).size.width/2,child: Text(""))
+            )
           ],
         ),
       )),

@@ -26,9 +26,9 @@ class HttpRequest {
       //响应流上前后两次接受到数据的间隔，单位为毫秒。
       receiveTimeout: Duration(milliseconds: 15000),
       //Http请求头.
-      // headers: {"version": "1.0.0"},
+      headers: getHeaders(),
       //表示期望以那种格式(方式)接受响应数据。接受四种类型 `json`, `stream`, `plain`, `bytes`. 默认值是 `json`,
-      // responseType: ResponseType.plain,
+      responseType: ResponseType.json,
     );
     dio = Dio(options);
   } // 私有构造函数
@@ -43,7 +43,12 @@ class HttpRequest {
   void refreshToken() {
 
   }
-
+  static Map<String, dynamic> getHeaders() {
+    Map<String, dynamic> httpHeaders = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    return httpHeaders;
+  }
   /*
    * get请求
    */

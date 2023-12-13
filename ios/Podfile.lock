@@ -62,11 +62,11 @@ SPEC CHECKSUMS:
   AMapLocation: 5248aec2455ebb5d104b367813c946430a2ee033
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  fluttertoast: 31b00dabfa7fb7bacd9e7dbee580d7a2ff4bf265
+  fluttertoast: fafc4fa4d01a6a9e4f772ecd190ffa525e9e2d9c
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
 
 PODFILE CHECKSUM: 02caaa843f6501172c0d470d80e72f61175c8b93
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.12.1
